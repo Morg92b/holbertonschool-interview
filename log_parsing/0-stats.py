@@ -1,44 +1,54 @@
 #!/usr/bin/python3
-"""Module pour traiter les statistiques des logs"""
+"""Log parsing"""
 import sys
+import re
+
+status_codes = ["200", "301", "400", "401",
+                "403", "404", "405", "500"]
 
 
-def print_stats(stats, total_size):
-    """Affiche les statistiques accumulées"""
-    print('File size: {}'.format(total_size))
-    for s_code, count in sorted(stats.items()):
-        if count:
-            print('{}: {}'.format(s_code, count))
+def print_stats(total_size, stats):
+    """Print statistics"""
+    print("File size: {}".format(total_size))
+
+    for code in status_codes:
+        if stats[code] != 0:
+            print("{}: {}".format(code, stats[code]))
 
 
 if __name__ == "__main__":
-    stats = {
-        '200': 0, '301': 0, '400': 0, '401': 0,
-        '403': 0, '404': 0, '405': 0, '500': 0
-    }
     total_size = 0
     line_count = 0
 
+    stats = {code: 0 for code in status_codes}
+
+    pattern = re.compile(
+        r'^(\d+\.\d+\.\d+\.\d+) - '
+        r'\[(.*?)\] '
+        r'"GET /projects/260 HTTP/1\.1" '
+        r'(\d+) (\d+)$'
+    )
+
     try:
         for line in sys.stdin:
-            line_count += 1
-            matches = line.split()
+            match = pattern.match(line.strip())
 
-            try:
-                # Récupération de la taille (dernier élément)
-                total_size += int(matches[-1])
-                # Récupération du code (avant-dernier élément)
-                status_code = matches[-2]
+            if match:
+                status_code = match.group(3)
+                file_size = int(match.group(4))
+
+                total_size += file_size
+
                 if status_code in stats:
                     stats[status_code] += 1
-            except (IndexError, ValueError):
-                continue
+
+            line_count += 1
 
             if line_count % 10 == 0:
-                print_stats(stats, total_size)
-
-        print_stats(stats, total_size)
+                print_stats(total_size, stats)
 
     except KeyboardInterrupt:
-        print_stats(stats, total_size)
+        print_stats(total_size, stats)
         raise
+
+    print_stats(total_size, stats)
