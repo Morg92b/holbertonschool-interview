@@ -64,7 +64,7 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
  * advanced_binary - Searches for a value in a sorted array
  * @array: Array to search
  * @size: Size of the array
- * @value: Value to search
+ * @value: Value to search for
  *
  * Return: First index of value, or -1
  */
