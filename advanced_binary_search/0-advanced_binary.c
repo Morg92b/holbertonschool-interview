@@ -24,13 +24,13 @@ void print_array(int *array, size_t size)
 }
 
 /**
- * advanced_binary_recursive - Searches recursively for a value
+ * advanced_binary_recursive - Performs recursive binary search
  * @array: Array to search
  * @left: Left boundary
  * @right: Right boundary
  * @value: Value to search
  *
- * Return: Index of the first occurrence, or -1
+ * Return: First index of value, or -1
  */
 int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 {
@@ -41,7 +41,7 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 
 	print_array(array + left, right - left + 1);
 
-	mid = left + (right - left) / 2;
+	mid = left + (right - left + 1) / 2;
 
 	if (array[mid] == value)
 	{
@@ -54,16 +54,19 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 	if (array[mid] < value)
 		return (advanced_binary_recursive(array, mid + 1, right, value));
 
-	return (advanced_binary_recursive(array, left, mid - 1, value));
+	if (mid == left)
+		return (-1);
+
+	return (advanced_binary_recursive(array, left, mid, value));
 }
 
 /**
  * advanced_binary - Searches for a value in a sorted array
  * @array: Array to search
  * @size: Size of the array
- * @value: Value to search
+ * @value: Value to search for
  *
- * Return: Index of the first occurrence, or -1
+ * Return: First index of value, or -1
  */
 int advanced_binary(int *array, size_t size, int value)
 {
