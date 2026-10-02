@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 /**
- * print_array - Prints the array being searched
+ * print_array - Prints an array
  * @array: Array to print
  * @size: Size of the array
  */
@@ -15,6 +15,7 @@ void print_array(int *array, size_t size)
 	for (i = 0; i < size; i++)
 	{
 		printf("%d", array[i]);
+
 		if (i < size - 1)
 			printf(", ");
 	}
@@ -23,11 +24,11 @@ void print_array(int *array, size_t size)
 }
 
 /**
- * advanced_binary_recursive - Recursively searches for a value
+ * advanced_binary_recursive - Performs recursive binary search
  * @array: Array to search
- * @left: Left index
- * @right: Right index
- * @value: Value to find
+ * @left: Left boundary
+ * @right: Right boundary
+ * @value: Value to search
  *
  * Return: First index of value, or -1
  */
@@ -40,7 +41,7 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 
 	print_array(array + left, right - left + 1);
 
-	mid = left + (right - left + 1) / 2;
+	mid = left + (right - left) / 2;
 
 	if (array[mid] == value)
 	{
@@ -62,7 +63,7 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 /**
  * advanced_binary - Searches for a value in a sorted array
  * @array: Array to search
- * @size: Number of elements
+ * @size: Size of the array
  * @value: Value to search for
  *
  * Return: First index of value, or -1
