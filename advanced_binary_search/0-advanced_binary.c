@@ -41,7 +41,7 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
 
 	print_array(array + left, right - left + 1);
 
-	mid = left + (right - left + 1) / 2;
+	mid = left + (right - left) / 2;
 
 	if (array[mid] == value)
 	{
@@ -64,7 +64,7 @@ int advanced_binary_recursive(int *array, size_t left, size_t right, int value)
  * advanced_binary - Searches for a value in a sorted array
  * @array: Array to search
  * @size: Size of the array
- * @value: Value to search for
+ * @value: Value to search
  *
  * Return: First index of value, or -1
  */
