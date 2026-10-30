@@ -1,4 +1,4 @@
-# !/usr/bin/python3
+#!/usr/bin/python3
 """ Count occurrences of keywords in hot Reddit articles. """
 import requests
 
